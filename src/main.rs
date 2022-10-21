@@ -29,6 +29,6 @@ fn main() {
     };
 
     let c = chunk::new_from_block(tree_house);
-    println!("{:?}", c);
+    println!("{:#?}", c);
 }
 

@@ -18,10 +18,10 @@ const fCHUNK_SIDE_LENGTH: f32 = 16.0;
 
 #[derive(Debug)]
 pub struct Chunk {
-    nw: Block,
-    ne: Block,
-    se: Block,
-    sw: Block,
+    pub nw: Block,
+    pub ne: Block,
+    pub se: Block,
+    pub sw: Block,
 }
 
 pub fn nw_corner(b: &Block) -> Block {
