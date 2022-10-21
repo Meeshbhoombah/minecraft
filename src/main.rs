@@ -31,6 +31,7 @@ struct World {
 
 #[derive(Debug, Deserialize)]
 struct Marker {
+    name: String,
     x: i64,
     y: Option<i32>,
     z: i64
