@@ -2,6 +2,11 @@
 /// src/main.rs
 ///
 /// Binary application running random Minecraft utility functions
+use std::{
+    env::{
+        current_dir
+    }
+};
 
 mod block;
 pub use block::{ 
@@ -19,5 +24,8 @@ fn main() {
 
     let c_new = Chunk::new_with_block(t_h);
     println!("{:#?}", c_new);
+
+    let p = current_dir();
+    println!("{:#?}", p);
 }
 
