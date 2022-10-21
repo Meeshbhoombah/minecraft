@@ -12,6 +12,8 @@ const MAX_Y_OTHERWORLD: i32 = 256;
 
 const SEA_LEVEL: i32 = 62;
 
+const MIN_Y: i32 = 0;
+
 
 const iCHUNK_SIDE_LENGTH: i32 = 16;
 const fCHUNK_SIDE_LENGTH: f32 = 16.0;

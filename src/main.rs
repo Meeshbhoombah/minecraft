@@ -13,14 +13,6 @@ pub use chunk::{
     Chunk
 };
 
-/*
-pub fn make_portal_path(points: Vec<Block>) -> Vec<Block> {
-}
-
-pub fn make_water_channel(points: Vec<Block>) -> Vec<Block> {
-}
-*/
-
 fn main() {
     let tree_house = Block {
         x: 6042,
