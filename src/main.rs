@@ -3,9 +3,13 @@
 ///
 /// Binary application running random Minecraft utility functions
 use std::{
-    env::{
-        current_dir
-    }
+    env,
+    fs,
+    process
+};
+
+use serde::{
+    Deserialize
 };
 
 mod block;
@@ -18,14 +22,43 @@ pub use chunk::{
     Chunk
 };
 
+
+#[derive(Debug, Deserialize)]
+struct World {
+    seed: i64,
+    markers: Vec<Marker>
+}
+
+#[derive(Debug, Deserialize)]
+struct Marker {
+    x: i64,
+    y: Option<i32>,
+    z: i64
+}
+
+
 fn main() {
-    let t_h = Block::new(6042, None, 910);
-    println!("{:#?}", t_h);
+    let mut path = env::current_dir()
+        .expect("Could not retrive path to current directory");
 
-    let c_new = Chunk::new_with_block(t_h);
-    println!("{:#?}", c_new);
+    path.push("World.toml");
 
-    let p = current_dir();
-    println!("{:#?}", p);
+    let contents = match fs::read_to_string(path) {
+        Ok(c) => c,
+        Err(e) => {
+            eprintln!("Could not read World.toml: {:?}", e);
+            process::exit(1);
+        }
+    };
+
+    let world: World = match toml::from_str(&contents) {
+        Ok(d) => d,
+        Err(e) => {
+            eprintln!("Could not load data from World.toml: {:?}", e);
+            process::exit(1);
+        }
+    };
+
+    println!("{:?}", world);
 }
 
