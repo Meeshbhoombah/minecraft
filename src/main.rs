@@ -14,13 +14,10 @@ pub use chunk::{
 };
 
 fn main() {
-    let tree_house = Block {
-        x: 6042,
-        y: 78,
-        z: 910
-    };
+    let t_h = Block::new(6042, None, 910);
+    println!("{:#?}", t_h);
 
-    let c = chunk::new_from_block(tree_house);
-    println!("{:#?}", c);
+    let c_new = Chunk::new_with_block(t_h);
+    println!("{:#?}", c_new);
 }
 

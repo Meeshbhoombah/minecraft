@@ -1,22 +1,92 @@
 /// Minecraft
 /// src/chunk.rs
 use crate::{
-    Block
+    Block,
+    block::SEA_LEVEL,
 };
 
+pub const iCHUNK_SIDE_LENGTH: i32 = 16;
+pub const fCHUNK_SIDE_LENGTH: f32 = 16.0;
 
-/// The maximum altitude for the Overworld is 320
-const MAX_Y_OVERWORLD: i32 = 320;
-/// For both the Nether and the End, the maximum altitude is 256
-const MAX_Y_OTHERWORLD: i32 = 256;
+fn nw(b: &Block) -> Block {
+    let x = b.x as f32 / fCHUNK_SIDE_LENGTH;
+    let x = x.floor();
+    let x = x as i32;
+    let x = x * iCHUNK_SIDE_LENGTH;
 
-const SEA_LEVEL: i32 = 62;
+    let y = SEA_LEVEL;
 
-const MIN_Y: i32 = 0;
+    let z = b.z as f32 / fCHUNK_SIDE_LENGTH;
+    let z = z.floor();
+    let z = z as i32;
+    let z = z * iCHUNK_SIDE_LENGTH;
 
+    Block {
+        x,
+        y,
+        z
+    }
+}
 
-const iCHUNK_SIDE_LENGTH: i32 = 16;
-const fCHUNK_SIDE_LENGTH: f32 = 16.0;
+fn ne(b: &Block) -> Block {
+    let x = b.x as f32 / fCHUNK_SIDE_LENGTH;
+    let x = x.ceil();
+    let x = x as i32;
+    let x = x * iCHUNK_SIDE_LENGTH;
+
+    let y = SEA_LEVEL;
+
+    let z = b.z as f32 / fCHUNK_SIDE_LENGTH;
+    let z = z.floor();
+    let z = z as i32;
+    let z = z * iCHUNK_SIDE_LENGTH;
+
+    Block {
+        x,
+        y,
+        z
+    }
+}
+
+fn se(b: &Block) -> Block {
+    let x = b.x as f32 / fCHUNK_SIDE_LENGTH;
+    let x = x.ceil();
+    let x = x as i32;
+    let x = x * iCHUNK_SIDE_LENGTH;
+
+    let y = SEA_LEVEL;
+
+    let z = b.z as f32 / fCHUNK_SIDE_LENGTH;
+    let z = z.ceil();
+    let z = z as i32;
+    let z = z * iCHUNK_SIDE_LENGTH;
+
+    Block {
+        x,
+        y,
+        z
+    }
+}
+
+fn sw(b: &Block) -> Block {
+    let x = b.x as f32 / fCHUNK_SIDE_LENGTH;
+    let x = x.floor();
+    let x = x as i32;
+    let x = x * iCHUNK_SIDE_LENGTH;
+
+    let y = SEA_LEVEL;
+
+    let z = b.z as f32 / fCHUNK_SIDE_LENGTH;
+    let z = z.ceil();
+    let z = z as i32;
+    let z = z * iCHUNK_SIDE_LENGTH;
+
+    Block {
+        x,
+        y,
+        z
+    }
+}
 
 #[derive(Debug)]
 pub struct Chunk {
@@ -26,80 +96,19 @@ pub struct Chunk {
     pub sw: Block,
 }
 
-pub fn nw_corner(b: &Block) -> Block {
-    let n = b.x as f32 / fCHUNK_SIDE_LENGTH;
-    let a = b.z as f32 / fCHUNK_SIDE_LENGTH;
-    
-    let n = n.floor();
-    let a = a.floor();
+impl Chunk {
+    pub fn new_with_block(b: Block) -> Self {
+        let nw = nw(&b);
+        let ne = ne(&b);
+        let se = se(&b);
+        let sw = sw(&b);
 
-    let n = n * fCHUNK_SIDE_LENGTH;
-    let a = a * fCHUNK_SIDE_LENGTH;
-
-    let x = n as i32;
-    let z = a as i32;
-
-    Block {
-        x,
-        y: SEA_LEVEL,
-        z
+        Chunk {
+            nw,
+            ne,
+            se,
+            sw,
+        }
     }
 }
-
-pub fn ne_corner(b: &Block) -> Block {
-    let n = nw_corner(&b);
-
-    let x = n.x + iCHUNK_SIDE_LENGTH;
-    let y = n.y;
-    let z = n.z;
-
-    Block {
-        x,
-        y,
-        z
-    }
-}
-
-pub fn se_corner(b: &Block) -> Block {
-    let n = nw_corner(&b);
-
-    let x = n.x + iCHUNK_SIDE_LENGTH;
-    let y = n.y;
-    let z = n.z + iCHUNK_SIDE_LENGTH;
-
-    Block {
-        x,
-        y,
-        z
-    }
-}
-
-pub fn sw_corner(b: &Block) -> Block {
-    let n = nw_corner(&b);
-
-    let x = n.x;
-    let y = n.y;
-    let z = n.z + iCHUNK_SIDE_LENGTH;
-
-    Block {
-        x,
-        y,
-        z
-    }     
-}
-
-pub fn new_from_block(b: Block) -> Chunk {
-    let nw = nw_corner(&b);
-    let ne = ne_corner(&b);
-    let se = se_corner(&b);
-    let sw = sw_corner(&b);
-
-    Chunk {
-        nw,
-        ne,
-        se,
-        sw
-    } 
-}
-
 
