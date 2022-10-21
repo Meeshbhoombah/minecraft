@@ -1,0 +1,16 @@
+# Minecraft World Seed
+seed = 69420
+
+# A significant coordinate in a World
+[[markers]]
+name = "Pillager Outpost"
+x = 69
+y = 420
+z = 69420
+
+# Can leave out Y-coorindate
+[[markers]]
+name = "Savannah Biome Village"
+x = 69
+z = 69420
+
