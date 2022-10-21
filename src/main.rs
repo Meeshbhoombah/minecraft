@@ -59,6 +59,6 @@ fn main() {
         }
     };
 
-    println!("{:?}", world);
+    println!("\n {:#?} \n", world);
 }
 
