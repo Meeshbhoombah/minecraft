@@ -24,17 +24,33 @@ pub use chunk::{
 
 
 #[derive(Debug, Deserialize)]
-struct World {
-    seed: i64,
-    markers: Vec<Marker>
-}
-
-#[derive(Debug, Deserialize)]
 struct Marker {
     name: String,
     x: i64,
     y: Option<i32>,
     z: i64
+}
+
+impl Marker {
+    pub fn to_block(&self) -> (&String, Block) { 
+        let x = self.x as i32;
+
+        let y = if let Some(y) = self.y {
+            Some(y as i32)
+        } else {
+            None
+        };
+
+        let z = self.z as i32;
+
+        (&self.name, Block::new(x, y, z))
+    }
+}
+
+#[derive(Debug, Deserialize)]
+struct World {
+    seed: i64,
+    markers: Vec<Marker>
 }
 
 
@@ -60,6 +76,10 @@ fn main() {
         }
     };
 
-    println!("\n {:#?} \n", world);
+    for marker in world.markers {
+        let b = marker.to_block();
+        println!("\n {:#?} \n", marker);
+        println!("\n {:#?} \n", b); 
+    }
 }
 
