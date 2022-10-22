@@ -22,6 +22,11 @@ pub use chunk::{
     Chunk
 };
 
+mod world;
+pub use world::{
+    World
+};
+
 
 #[derive(Debug, Deserialize)]
 struct Marker {
@@ -48,9 +53,18 @@ impl Marker {
 }
 
 #[derive(Debug, Deserialize)]
-struct World {
-    seed: i64,
+struct RawWorldData {
+    seed: Option<i64>,
     markers: Vec<Marker>
+}
+
+impl RawWorldData {
+    pub fn make_workable(&self) -> World {
+        World {
+            seed: self.seed,
+            structures: None,
+        }
+    }
 }
 
 
@@ -68,7 +82,7 @@ fn main() {
         }
     };
 
-    let world: World = match toml::from_str(&contents) {
+    let raw: RawWorldData = match toml::from_str(&contents) {
         Ok(d) => d,
         Err(e) => {
             eprintln!("Could not load data from World.toml: {:?}", e);
@@ -76,10 +90,13 @@ fn main() {
         }
     };
 
-    for marker in world.markers {
+    for marker in &raw.markers {
         let b = marker.to_block();
         println!("\n {:#?} \n", marker);
         println!("\n {:#?} \n", b); 
     }
+
+    let w = raw.make_workable();
+    println!("\n {:#?} \n", w); 
 }
 
