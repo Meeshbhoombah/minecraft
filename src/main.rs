@@ -1,4 +1,5 @@
 /// Minecraft
+/// 
 /// src/main.rs
 ///
 /// Binary application running random Minecraft utility functions
@@ -12,17 +13,28 @@ use serde::{
     Deserialize
 };
 
+
+mod item;
 mod block;
+mod chunk;
+mod world;
+mod build;
+
+mod castle;
+
+pub use item::{
+    Count,
+    Item
+};
+
 pub use block::{ 
     Block
 };
 
-mod chunk;
 pub use chunk::{
     Chunk
 };
 
-mod world;
 pub use world::{
     World
 };
